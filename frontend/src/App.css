@@ -1,0 +1,451 @@
+/* Global Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fc;
+  color: #333;
+}
+
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+.App-header {
+  background-color: #4CAF50;
+  padding: 20px;
+  color: white;
+  border-radius: 5px;
+}
+
+.current-time {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+/* Calendar Layout */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin: 20px;
+}
+
+.calendar-day {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+/* Calendar Day Header */
+.calendar-day h3 {
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Task List within each Calendar Day */
+.task-list {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+/* Task Card Styles */
+.task-card {
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.task-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Status styling for tasks */
+.task-card.past {
+  border: 1px solid #e74c3c;
+  max-width: 177px;
+  margin: 20px auto;
+  background-color: #f9e5e5;
+}
+
+.task-card.ongoing {
+  max-width: 177px;
+  margin: 20px auto;
+  border: 3px solid transparent; /* Start with transparent border */
+  background-color: #e9f9ee;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.5); /* Soft glow effect */
+  animation: pulse 3s infinite ease-in-out, borderAnimation 4s ease-in-out infinite, fadeInOut 4s ease-in-out infinite;
+}
+
+/* Pulse Animation (Scales the card) */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Border Animation (Line going around the card) */
+@keyframes borderAnimation {
+  0% {
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0); /* No shadow at start */
+  }
+  25% {
+    border-top-color: #2ecc71;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.7); /* Glowing effect */
+  }
+  50% {
+    border-right-color: #2ecc71;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.7); /* Glowing effect */
+  }
+  75% {
+    border-bottom-color: #2ecc71;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.7); /* Glowing effect */
+  }
+  100% {
+    border-left-color: #2ecc71;
+    box-shadow: 0 0 15px rgba(46, 204, 113, 1); /* Stronger glow at the end */
+  }
+}
+
+/* Fade In and Out (Content fades in and out) */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Optional - Add hover effect to make it more interactive */
+.task-card.ongoing:hover {
+  transform: scale(1.05); /* Slight increase in size when hovered */
+  box-shadow: 0 0 15px rgba(46, 204, 113, 1); /* Stronger glow on hover */
+  border-color: #2ecc71;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.task-card.close {
+  max-width: 177px;
+  margin: 20px auto;
+  border: 1px solid #f1c40f;
+  background-color: #fcf8e3;
+}
+
+.task-card.normal {
+  max-width: 177px;
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.task-info {
+  text-align: left;
+}
+
+.task-info h4 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.task-info p {
+  font-size: 0.9rem;
+  margin: 3px 0;
+  color: #555;
+}
+
+/* Floating Add Task Button */
+.add-task-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.add-task-button:hover {
+  transform: scale(1.1);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.modal h2 {
+  margin-top: 0;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal form label {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.modal form input,
+.modal form select {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  padding: 8px 16px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-buttons button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.modal-buttons button[type="button"] {
+  background-color: #ccc;
+  color: #333;
+}
+
+/* Toast Notifications */
+.Toastify__toast-container {
+  font-family: 'Arial', sans-serif;
+}
+
+.Toastify__toast {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .calendar {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .App-header {
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+  .current-time {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar {
+    grid-template-columns: 1fr;
+  }
+  .App {
+    padding: 10px;
+  }
+  .add-task-button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
+.App-header {
+  background-color: #2c3e50;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  border-bottom: 2px solid #34495e;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+
+.header-title {
+  font-size: 2rem;
+}
+
+.current-time {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.motivational {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: italic;
+  color: #16a085;
+}
+
+.motivational p {
+  margin-left: 10px;
+}
+
+.motivational .fa-check-circle {
+  color: #16a085;
+  font-size: 1.5rem;
+  margin-right: 10px;
+  animation: iconPulse 1.5s ease-in-out infinite;
+}
+
+.fa-clock {
+  margin-right: 8px;
+  font-size: 1.4rem;
+  animation: clockSpin 2s ease-in-out infinite;
+}
+
+/* Keyframes for icon animations */
+@keyframes iconPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes clockSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+  }
+
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  .current-time {
+    font-size: 1rem;
+  }
+
+  .motivational {
+    font-size: 1rem;
+  }
+
+  .motivational .fa-check-circle {
+    font-size: 1.2rem;
+  }
+
+  .fa-clock {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-container {
+    padding: 10px;
+  }
+
+  .header-title {
+    font-size: 1.2rem;
+  }
+
+  .current-time {
+    font-size: 0.9rem;
+  }
+
+  .motivational {
+    font-size: 1rem;
+  }
+}
